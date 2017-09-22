@@ -11,6 +11,7 @@ use ApiGateway\Model\ApiGroup\DeleteApiStageVariable;
 use ApiGateway\Model\ApiGroup\DescribeApiStage;
 
 use ApiGateway\Model\Api\CreateApi;
+use ApiGateway\Model\Api\ModifyApi;
 
 use ApiGateway\ApiService;
 
@@ -210,6 +211,39 @@ class BaseTest extends TestCase
         $checks = [
             'RequestId',
             'ApiId'
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function modifyApi($params)
+    {
+        $object = new ModifyApi();
+        $object->setGroupId($params['GroupId']);
+        $object->setApiId($params['ApiId']);
+        $object->setApiName($params['ApiName']);
+        $object->setVisibility($params['Visibility']);
+        $object->setDescription($params['Description']);
+        $object->setAuthType($params['AuthType']);
+        $object->setOpenIdConnectConfig($params['OpenIdConnectConfig']);
+        $object->setRequestConfig($params['RequestConfig']);
+        $object->setServiceConfig($params['ServiceConfig']);
+        $object->setRequestParameters($params['RequestParameters']);
+        $object->setServiceParameters($params['ServiceParameters']);
+        $object->setServiceParametersMap($params['ServiceParametersMap']);
+        $object->setResultType($params['ResultType']);
+        $object->setResultSample($params['ResultSample']);
+        $object->setFailResultSample($params['FailResultSample']);
+        $object->setErrorCodeSamples($params['ErrorCodeSamples']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
         ];
 
         return [

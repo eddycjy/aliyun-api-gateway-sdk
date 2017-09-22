@@ -11,6 +11,10 @@ class ApiTest extends BaseTest
 
 	private $createApiDescription = 'Description';
 
+	private $modifyApiName = 'ModifyApiName';
+
+	private $modifyApiDescription = 'ModifyDescription';
+
 	private $apiRequestConfig = [
 		'RequestProtocol' 		=> Constants::HTTP_PROTOCOL,
 		'RequestHttpMethod'		=> Constants::POST_METHOD,
@@ -117,5 +121,38 @@ class ApiTest extends BaseTest
 		$apiResult = $this->createApi($params);
 
 		$this->assertNotFalse($apiResult['check']);
+
+		return $apiResult['response']['ApiId'];
 	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testModifyApi($groupId, $apiId)
+	{
+		$params = [
+			'GroupId' 				=> $groupId,
+			'ApiId'					=> $apiId,
+			'ApiName' 				=> $this->modifyApiName,
+			'Visibility' 			=> Constants::PUBLIC_TYPE,
+			'Description'			=> $this->modifyApiDescription,
+			'AuthType'				=> Constants::APP_AUTH,
+			'OpenIdConnectConfig'	=> '',
+			'RequestConfig'			=> json_encode($this->apiRequestConfig),
+			'ServiceConfig'			=> json_encode($this->apiServiceConfig),
+			'RequestParameters'		=> json_encode($this->apiRequestParameters),
+			'ServiceParameters'		=> json_encode($this->apiServiceParameter),
+			'ServiceParametersMap'	=> json_encode($this->apiServiceParametersMap),
+			'ResultType'			=> Constants::JSON_FORMAT,
+			'ResultSample'			=> json_encode($this->apiResultSample),
+			'FailResultSample'		=> json_encode($this->apiFailResultSample),
+			'ErrorCodeSamples'		=> json_encode($this->apiErrorCodeSamples),
+		];
+
+		$apiResult = $this->modifyApi($params);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
 }
