@@ -12,6 +12,14 @@ use ApiGateway\Model\ApiGroup\DescribeApiStage;
 
 use ApiGateway\Model\Api\CreateApi;
 use ApiGateway\Model\Api\ModifyApi;
+use ApiGateway\Model\Api\DeployApi;
+use ApiGateway\Model\Api\DescribeApiHistories;
+use ApiGateway\Model\Api\SwitchApi;
+use ApiGateway\Model\Api\AbolishApi;
+use ApiGateway\Model\Api\DeleteApi;
+use ApiGateway\Model\Api\DescribeApi;
+use ApiGateway\Model\Api\DescribeApiDoc;
+use ApiGateway\Model\Api\DescribeApis;
 
 use ApiGateway\ApiService;
 
@@ -244,6 +252,193 @@ class BaseTest extends TestCase
 
         $checks = [
             'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function deployApi($groupId, $apiId, $stageName, $description)
+    {
+        $object = new DeployApi();
+        $object->setGroupId($groupId);
+        $object->setApiId($apiId);
+        $object->setStageName($stageName);
+        $object->setDescription($description);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId'
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function describeApiHistories($params)
+    {
+        $object = new DescribeApiHistories();
+        $object->setGroupId($params['GroupId']);
+        $object->setApiId($params['ApiId']);
+        $object->setApiName($params['ApiName']);
+        $object->setStageName($params['StageName']);
+        $object->setPageSize($params['PageSize']);
+        $object->setPageNumber($params['PageNumber']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'TotalCount',
+            'PageNumber',
+            'PageSize',
+            'ApiHisItems'
+        ];
+
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function switchApi($params)
+    {
+        $object = new SwitchApi();
+        $object->setGroupId($params['GroupId']);
+        $object->setApiId($params['ApiId']);
+        $object->setStageName($params['StageName']);
+        $object->setHistoryVersion($params['HistoryVersion']);
+        $object->setDescription($params['Description']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function abolishApi($groupId, $apiId, $stageName)
+    {
+        $object = new AbolishApi();
+        $object->setGroupId($groupId);
+        $object->setApiId($apiId);
+        $object->setStageName($stageName);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function deleteApi($groupId, $apiId)
+    {
+        $object = new DeleteApi();
+        $object->setGroupId($groupId);
+        $object->setApiId($apiId);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function describeApi($groupId, $apiId)
+    {
+        $object = new DescribeApi();
+        $object->setGroupId($groupId);
+        $object->setApiId($apiId);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'RegionId',
+            'ApiId',
+            'ApiName',
+            'GroupId',
+            'GroupName'
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function describeApiDoc($groupId, $apiId, $stageName)
+    {
+        $object = new DescribeApiDoc();
+        $object->setGroupId($groupId);
+        $object->setApiId($apiId);
+        $object->setStageName($stageName);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'RegionId',
+            'ApiId',
+            'ApiName',
+            'GroupId',
+            'GroupName',
+            'StageName',
+            'ApiId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function describeApis($params)
+    {
+        $object = new DescribeApis();
+        $object->setGroupId($params['GroupId']);
+        $object->setApiId($params['ApiId']);
+        $object->setApiName($params['ApiName']);
+        $object->setCatalogId($params['CatalogId']);
+        $object->setPageSize($params['PageSize']);
+        $object->setPageNumber($params['PageNumber']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'TotalCount',
+            'PageNumber',
+            'PageSize',
+            'ApiSummarys',
         ];
 
         return [

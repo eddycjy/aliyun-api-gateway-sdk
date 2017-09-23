@@ -15,6 +15,14 @@ class ApiTest extends BaseTest
 
 	private $modifyApiDescription = 'ModifyDescription';
 
+	private $deployStageName = Constants::TEST_STAGE;
+
+	private $deployDescriptionStep1 = 'DeployDescription-Step1';
+
+	private $deployDescriptionStep2 = 'DeployDescription-Step2';
+
+	private $switchDescriptionStep3 = 'SwitchDescription-Step3';
+
 	private $apiRequestConfig = [
 		'RequestProtocol' 		=> Constants::HTTP_PROTOCOL,
 		'RequestHttpMethod'		=> Constants::POST_METHOD,
@@ -153,6 +161,142 @@ class ApiTest extends BaseTest
 		$apiResult = $this->modifyApi($params);
 
 		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDeployApiStep1($groupId, $apiId)
+	{
+		$apiResult = $this->deployApi($groupId, $apiId, $this->deployStageName, $this->deployDescriptionStep1);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDeployApiStep2($groupId, $apiId)
+	{
+		$apiResult = $this->deployApi($groupId, $apiId, $this->deployStageName, $this->deployDescriptionStep2);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     */
+	public function testDescribeApiHistories($groupId)
+	{
+		$params = [
+			'GroupId'    => $groupId,
+			'ApiId'	     => '',
+			'ApiName'    => '',
+			'StageName'  => $this->deployStageName,
+			'PageSize'   => '10',
+			'PageNumber' => '1',
+		];
+
+		$apiResult = $this->describeApiHistories($params);
+
+		$this->assertNotFalse($apiResult['check']);
+
+		return $apiResult['response']['ApiHisItems']['ApiHisItem'];
+	}
+
+	/**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     * @depends testDescribeApiHistories
+     */
+	public function testSwitchApi($groupId, $apiId, $apiHisItem)
+	{
+		$params = [
+			'GroupId' 			=> $groupId,
+			'ApiId'	  			=> $apiId,
+			'StageName'			=> $this->deployStageName,
+			'HistoryVersion'	=> $apiHisItem[0]['HistoryVersion'],
+			'Description'		=> $this->switchDescriptionStep3,
+		];
+		
+		$apiResult = $this->switchApi($params);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDescribeApi($groupId, $apiId)
+	{
+		$apiResult = $this->describeApi($groupId, $apiId);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDescribeApiDoc($groupId, $apiId)
+	{
+		$apiResult = $this->describeApiDoc($groupId, $apiId, $this->deployStageName);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+	/**
+     * @depends testCreateApiGroup
+     */
+	public function testDescribeApis($groupId)
+	{
+		$params = [
+			'GroupId' 	 => $groupId,
+			'ApiId'   	 => '',
+			'ApiName' 	 => '',
+			'CatalogId'  => '',
+			'PageSize'	 => 10,
+			'PageNumber' => 1,
+		];
+
+		$apiResult = $this->describeApis($params);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testAbolishApi($groupId, $apiId)
+	{
+		$apiResult = $this->abolishApi($groupId, $apiId, $this->deployStageName);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+    /**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDeleteApi($groupId, $apiId)
+	{
+		$apiResult = $this->deleteApi($groupId, $apiId);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+	/**
+     * @depends testCreateApiGroup
+     */
+	public function testDeleteApiGroup($groupId)
+	{
+		$groupResult = $this->deleteApiGroup($groupId);
+
+		$this->assertNotFalse($groupResult['check']);
 	}
 
 }
