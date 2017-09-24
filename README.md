@@ -57,4 +57,4 @@ $response   = $serviceObj->get();
 
 # Usage
 
-Please see the example directory(https://github.com/EDDYCJY/aliyun-api-gateway-sdk/tree/master/example)
+[Please see the example directory](https://github.com/EDDYCJY/aliyun-api-gateway-sdk/tree/master/example)
