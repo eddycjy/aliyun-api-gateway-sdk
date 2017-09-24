@@ -4,7 +4,7 @@
     "keywords": ["aliyun", "api"],
     "license": "MIT",
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.4"
     },
     "authors": [
         {
