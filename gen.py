@@ -1,6 +1,7 @@
 import os
 
 '''
+
 ## Gen Model and Example:
 ``` sh
 Please input class name: CreateApi
@@ -12,6 +13,8 @@ Please input class property-params: id
 Please input class property-key: q
 
 ```    
+
+- Model Code: 
 
 ``` php
 namespace ApiGateway\Model\Api;
@@ -30,6 +33,21 @@ class CreateApi extends ApiModel
     }
 
     ...
+
+```
+
+- Example Code: 
+
+``` php
+use ApiGateway\Model\Api\CreateApi;
+use ApiGateway\ApiService;
+
+$object = new CreateApi();
+$object->setGroupId($demo);
+...
+
+$serviceObj = new ApiService($object);
+$response   = $serviceObj->get();
 
 ```
 
