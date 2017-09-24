@@ -22,12 +22,12 @@ Copy Env.example.php file to Env.php
 
 ``` php
 return [
-	'AccessKeyId' 		=> '',
-	'AccessKeySecret'	=> '',
-	'Format'		=> 'json',
-	'Version'		=> '2016-07-14',
-	'SignatureMethod'	=> 'HMAC-SHA1',
-	'SignatureVersion'	=> '1.0'
+    'AccessKeyId'       => '',
+    'AccessKeySecret'   => '',
+    'Format'        => 'json',
+    'Version'       => '2016-07-14',
+    'SignatureMethod'   => 'HMAC-SHA1',
+    'SignatureVersion'  => '1.0'
 ];
 ```
 
@@ -38,12 +38,12 @@ use ApiGateway\Model\ApiGroup\CreateApiGroup;
 use ApiGateway\ApiService;
 
 $config = new ArrayConfig([
-	'AccessKeyId' 		=> '',
-	'AccessKeySecret'	=> '',
-	'Format'			=> 'json',
-	'Version'			=> '2016-07-14',
-	'SignatureMethod'	=> 'HMAC-SHA1',
-	'SignatureVersion'	=> '1.0'
+    'AccessKeyId'       => '',
+    'AccessKeySecret'   => '',
+    'Format'            => 'json',
+    'Version'           => '2016-07-14',
+    'SignatureMethod'   => 'HMAC-SHA1',
+    'SignatureVersion'  => '1.0'
 ]);
 
 $model = new CreateApiGroup();
