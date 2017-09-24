@@ -1,16 +1,17 @@
 {
     "name": "eddycjy/aliyun-api-gateway-sdk",
     "description": "aliyun-api-gateway-sdk",
+    "keywords": ["aliyun", "api"],
     "license": "MIT",
+    "require": {
+        "php": ">=5.4",
+    },
     "authors": [
         {
             "name": "eddycjy",
             "email": "313687982@qq.com"
         }
     ],
-    "require": {
-        "php":">=5.4"
-    },
     "autoload": {
       "psr-4": {
         "ApiGateway\\": "src/"
