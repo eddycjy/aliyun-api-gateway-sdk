@@ -25,6 +25,8 @@ use ApiGateway\Model\Control\CreateTrafficControl;
 use ApiGateway\Model\Control\ModifyTrafficControl;
 use ApiGateway\Model\Control\DeleteTrafficControl;
 use ApiGateway\Model\Control\AddTrafficSpecialControl;
+use ApiGateway\Model\Control\DeleteAllTrafficSpecialControl;
+use ApiGateway\Model\Control\DeleteTrafficSpecialControl;
 
 use ApiGateway\Model\App\CreateApp;
 use ApiGateway\Model\App\ModifyApp;
@@ -536,6 +538,44 @@ class BaseTest extends TestCase
         $object->setSpecialType($specialType);
         $object->setSpecialKey($specialKey);
         $object->setTrafficValue($trafficValue);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function deleteAllTrafficSpecialControl($trafficControlId)
+    {
+        $object = new DeleteAllTrafficSpecialControl();
+        $object->setTrafficControlId($trafficControlId);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function deleteTrafficSpecialControl($trafficControlId, $specialType, $specialKey)
+    {
+        $object = new DeleteTrafficSpecialControl();
+        $object->setTrafficControlId($trafficControlId);
+        $object->setSpecialType($specialType);
+        $object->setSpecialKey($specialKey);
 
         $serviceObj = new ApiService($object);
         $response   = $serviceObj->get();

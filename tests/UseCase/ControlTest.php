@@ -17,7 +17,9 @@ class ControlTest extends BaseTest
 
 	private $specialType = Constants::APP_SPECIALTYPE;
 
-	private $specialKey = '12345';
+	private $createAppName = 'CreateControl';
+
+	private $createAppDescription = 'CreateControl-Description-UnitTest';
 
 	public function testCreateTrafficControl()
 	{
@@ -57,6 +59,36 @@ class ControlTest extends BaseTest
 		$this->assertNotFalse($modifyResult['check']);
 	}
 
+	public function testCreateApp()
+	{
+		$createResult = $this->createApp($this->createAppName, $this->createAppDescription);
+
+		$this->assertNotFalse($createResult['check']);
+
+        return $createResult['response']['AppId'];
+	}
+
+	/**
+     * @depends testCreateTrafficControl
+     * @depends testCreateApp
+     */
+	public function testAddTrafficSpecialControl($trafficControlId, $appId)
+	{
+		$addResult = $this->addTrafficSpecialControl($trafficControlId, $this->specialType, $appId, 10000);
+
+		$this->assertNotFalse($addResult['check']);
+	}
+
+	/**
+     * @depends testCreateTrafficControl
+     */
+	public function testDeleteAllTrafficSpecialControl($trafficControlId)
+	{
+		$deleteResult = $this->deleteAllTrafficSpecialControl($trafficControlId);
+
+		$this->assertNotFalse($deleteResult['check']);
+	}
+
 	/**
      * @depends testCreateTrafficControl
      */
@@ -69,12 +101,23 @@ class ControlTest extends BaseTest
 
 	/**
      * @depends testCreateTrafficControl
+     * @depends testCreateApp
      */
-	// public function testAddTrafficSpecialControl($trafficControlId)
-	// {
-	// 	$addResult = $this->addTrafficSpecialControl($trafficControlId, $this->specialType, $this->specialKey, 10000);
+	public function testDeleteTrafficSpecialControl($trafficControlId, $appId)
+	{
+		$deleteResult = $this->deleteTrafficSpecialControl($trafficControlId, $this->specialType, $appId);
 
-	// 	$this->assertNotFalse($addResult['check']);
-	// }
+		$this->assertNotFalse($deleteResult['check']);
+	}
+
+	/**
+     * @depends testCreateApp
+     */
+	public function testDeleteApp($appId)
+	{
+		$deleteResult = $this->deleteApp($appId);
+
+		$this->assertNotFalse($deleteResult['check']);
+	}
 
 }
