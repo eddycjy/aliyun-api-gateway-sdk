@@ -7,6 +7,8 @@
 # Requirements
 
 - PHP >= 5.4.0
+- Composer
+- Curl
 
 # Installation
 
