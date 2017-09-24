@@ -8,8 +8,9 @@
             "email": "313687982@qq.com"
         }
     ],
-    "minimum-stability": "0.9.0",
-    "require": {},
+    "require": {
+        "php":">=5.4"
+    },
     "autoload": {
       "psr-4": {
         "ApiGateway\\": "src/"
