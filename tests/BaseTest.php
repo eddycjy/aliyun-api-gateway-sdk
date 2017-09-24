@@ -21,6 +21,18 @@ use ApiGateway\Model\Api\DescribeApi;
 use ApiGateway\Model\Api\DescribeApiDoc;
 use ApiGateway\Model\Api\DescribeApis;
 
+use ApiGateway\Model\Control\CreateTrafficControl;
+use ApiGateway\Model\Control\ModifyTrafficControl;
+use ApiGateway\Model\Control\DeleteTrafficControl;
+use ApiGateway\Model\Control\AddTrafficSpecialControl;
+
+use ApiGateway\Model\App\CreateApp;
+use ApiGateway\Model\App\ModifyApp;
+use ApiGateway\Model\App\DescribeAppAttributes;
+use ApiGateway\Model\App\DescribeAppSecurity;
+use ApiGateway\Model\App\ResetAppSecret;
+use ApiGateway\Model\App\DeleteApp;
+
 use ApiGateway\ApiService;
 
 class BaseTest extends TestCase
@@ -448,6 +460,219 @@ class BaseTest extends TestCase
     }
 
     /* Api End */
+
+    /* Control Start */
+
+    protected function createTrafficControl($params)
+    {
+        $object = new CreateTrafficControl();
+        $object->setTrafficControlName($params['TrafficControlName']);
+        $object->setTrafficControlUnit($params['TrafficControlUnit']);
+        $object->setApiDefault($params['ApiDefault']);
+        $object->setUserDefault($params['UserDefault']);
+        $object->setAppDefault($params['AppDefault']);
+        $object->setDescription($params['Description']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'TrafficControlId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function modifyTrafficControl($params)
+    {
+        $object = new ModifyTrafficControl();
+        $object->setTrafficControlId($params['TrafficControlId']);
+        $object->setTrafficControlName($params['TrafficControlName']);
+        $object->setTrafficControlUnit($params['TrafficControlUnit']);
+        $object->setApiDefault($params['ApiDefault']);
+        $object->setUserDefault($params['UserDefault']);
+        $object->setAppDefault($params['AppDefault']);
+        $object->setDescription($params['Description']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function deleteTrafficControl($trafficControlId)
+    {
+        $object = new DeleteTrafficControl();
+        $object->setTrafficControlId($trafficControlId);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function addTrafficSpecialControl($trafficControlId, $specialType, $specialKey, $trafficValue)
+    {
+        $object = new AddTrafficSpecialControl();
+        $object->setTrafficControlId($trafficControlId);
+        $object->setSpecialType($specialType);
+        $object->setSpecialKey($specialKey);
+        $object->setTrafficValue($trafficValue);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    /* Control End */
+
+    protected function createApp($appName, $description)
+    {
+        $object = new CreateApp();
+        $object->setAppName($appName);
+        $object->setDescription($description);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'AppId'
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function modifyApp($appId, $appName, $description)
+    {
+        $object = new ModifyApp();
+        $object->setAppId($appId);
+        $object->setAppName($appName);
+        $object->setDescription($description);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function describeAppAttributes($appId, $pageSize, $pageNumber)
+    {
+        $object = new DescribeAppAttributes();
+        $object->setAppId($appId);
+        $object->setPageSize($pageSize);
+        $object->setPageNumber($pageNumber);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'TotalCount',
+            'PageNumber',
+            'PageSize',
+            'Apps'
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function describeAppSecurity($appId)
+    {
+        $object = new DescribeAppSecurity();
+        $object->setAppId($appId);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+            'AppKey',
+            'AppSecret',
+            'CreatedTime',
+            'ModifiedTime'
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function resetAppSecret($appKey)
+    {
+        $object = new ResetAppSecret();
+        $object->setAppKey($appKey);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function deleteApp($appId)
+    {
+        $object = new DeleteApp();
+        $object->setAppId($appId);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
 
     private function checkRequired($response, $values)
     {
