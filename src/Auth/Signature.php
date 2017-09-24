@@ -1,6 +1,12 @@
 <?php
 namespace ApiGateway\Auth;
 
+/**
+ * Signature Code
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 class Signature
 {
 	/**

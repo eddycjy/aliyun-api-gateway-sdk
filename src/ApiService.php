@@ -10,6 +10,12 @@ use ApiGateway\Auth\Signature;
 use ApiGateway\Http\HttpHelper;
 use ApiGateway\Exception\ServerException;
 
+/**
+ * Api Service
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 class ApiService
 {
 	use ClassSerialize;

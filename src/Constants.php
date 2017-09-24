@@ -1,6 +1,12 @@
 <?php
 namespace ApiGateway;
 
+/**
+ * Api Constants
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 class Constants
 {
 	const DS = DIRECTORY_SEPARATOR;

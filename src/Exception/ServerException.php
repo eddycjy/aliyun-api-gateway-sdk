@@ -21,8 +21,9 @@ use ApiGateway\Exception\ClientException;
  * specific language governing permissions and limitations
  * under the License.
  *
- * @author aliyun\aliyun-php-sdk-core
- * @modify eddycjy
+ * @author    aliyun\aliyun-php-sdk-core
+ * @Copyright 1999-2015 Alibaba Group Holding Ltd
+ * @modify    eddycjy
  */
 class ServerException extends ClientException
 {

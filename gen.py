@@ -1,5 +1,39 @@
 import os
 
+'''
+## Gen Model and Example:
+``` sh
+Please input class name: CreateApi
+Please input class group: Api
+Please input class property-key: GroupId
+Please input class property-params: id
+
+# input q to quit
+Please input class property-key: q
+
+```    
+
+``` php
+namespace ApiGateway\Model\Api;
+
+use ApiGateway\ApiModel;
+
+class CreateApi extends ApiModel
+{
+    public $GroupId;
+
+    public function setGroupId($id)
+    {
+        $this->GroupId = $id;
+
+        return $this;
+    }
+
+    ...
+
+```
+
+'''
 class Gen:
 
     def __init__(self):

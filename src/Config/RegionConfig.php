@@ -3,6 +3,12 @@ namespace ApiGateway\Config;
 
 use ApiGateway\Config\BaseConfig;
 
+/**
+ * Region Config
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 class RegionConfig extends BaseConfig
 {
 	public $RegionNode = 'cn-hangzhou';

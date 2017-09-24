@@ -28,7 +28,6 @@ class ApiGroupTest extends BaseTest
      */
     public function testModifyApiGroup($groupId)
     {
-        //修改API分组
         $modifyResult = $this->modifyApiGroup($groupId, $this->modifyGroupName, $this->modifyDescription);
 
         $this->assertNotFalse($modifyResult['check']);
@@ -41,7 +40,6 @@ class ApiGroupTest extends BaseTest
      */
     public function testDescribeApiGroup($groupId)
     {
-        //查询API分组详情
         $describeResult = $this->describeApiGroup($groupId);
 
         $this->assertNotFalse($describeResult['check']);

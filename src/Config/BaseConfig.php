@@ -4,6 +4,12 @@ namespace ApiGateway\Config;
 use ApiGateway\Config\ConfigInterface;
 use ApiGateway\Constants;
 
+/**
+ * Base Config
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 abstract class BaseConfig implements ConfigInterface
 {	
 	public $AccessKeyId;

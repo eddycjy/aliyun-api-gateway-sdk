@@ -1,6 +1,12 @@
 <?php
 namespace ApiGateway\Config;
 
+/**
+ * Config Interface
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 interface ConfigInterface
 {
 	public function getRegionNode();

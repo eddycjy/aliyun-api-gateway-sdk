@@ -58,3 +58,43 @@ $response   = $serviceObj->get();
 # Usage
 
 [Please see the example directory](https://github.com/EDDYCJY/aliyun-api-gateway-sdk/tree/master/example)
+
+
+# Gen (Python 3.x)
+
+## Generate Model and Example:
+
+```
+python gen.py
+```
+
+``` sh
+Please input class name: CreateApi
+Please input class group: Api
+Please input class property-key: GroupId
+Please input class property-params: id
+
+# input q to quit
+Please input class property-key: q
+
+```    
+
+``` php
+namespace ApiGateway\Model\Api;
+
+use ApiGateway\ApiModel;
+
+class CreateApi extends ApiModel
+{
+    public $GroupId;
+
+    public function setGroupId($id)
+    {
+        $this->GroupId = $id;
+
+        return $this;
+    }
+
+    ...
+
+```

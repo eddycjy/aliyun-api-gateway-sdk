@@ -1,6 +1,12 @@
 <?php
 namespace ApiGateway\Auth;
 
+/**
+ * Sha1
+ * 
+ * @author    eddycjy <313687982@qq.com>
+ * @license   MIT
+ */
 class ShaHmac1
 {
     public function signString($code, $secret)
