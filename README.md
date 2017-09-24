@@ -116,3 +116,7 @@ $serviceObj = new ApiService($object);
 $response   = $serviceObj->get();
 
 ```
+
+# License
+
+MIT
