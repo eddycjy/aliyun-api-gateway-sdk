@@ -43,6 +43,8 @@ use ApiGateway\Model\Authorized\SetAppsAuthorities;
 
 use ApiGateway\ApiService;
 
+use ApiGateway\Constants;
+
 class BaseTest extends TestCase
 {
     protected $apiRequestConfig = [
