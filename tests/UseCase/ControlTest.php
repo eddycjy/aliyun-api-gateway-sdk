@@ -21,6 +21,8 @@ class ControlTest extends BaseTest
 
 	private $createAppDescription = 'CreateControl-Description-UnitTest';
 
+	private $createStageName = Constants::TEST_STAGE;
+
 	public function testCreateTrafficControl()
 	{
 		$params = [
@@ -59,6 +61,15 @@ class ControlTest extends BaseTest
 		$this->assertNotFalse($modifyResult['check']);
 	}
 
+	public function testCreateApiGroup()
+    {
+        $createResult = $this->createApiGroup($this->createControlName, $this->createDescription);
+
+        $this->assertNotFalse($createResult['check']);
+
+        return $createResult['response']['GroupId'];
+    }
+
 	public function testCreateApp()
 	{
 		$createResult = $this->createApp($this->createAppName, $this->createAppDescription);
@@ -66,6 +77,60 @@ class ControlTest extends BaseTest
 		$this->assertNotFalse($createResult['check']);
 
         return $createResult['response']['AppId'];
+	}
+
+	/**
+     * @depends testCreateApiGroup
+     */
+    public function testCreateApi($groupId)
+	{
+		$params = [
+			'GroupId' 				=> $groupId,
+			'ApiName' 				=> $this->createControlName,
+			'Visibility' 			=> Constants::PUBLIC_TYPE,
+			'Description'			=> $this->createDescription,
+			'AuthType'				=> Constants::APP_AUTH,
+			'OpenIdConnectConfig'	=> '',
+			'RequestConfig'			=> json_encode($this->apiRequestConfig),
+			'ServiceConfig'			=> json_encode($this->apiServiceConfig),
+			'RequestParameters'		=> json_encode($this->apiRequestParameters),
+			'ServiceParameters'		=> json_encode($this->apiServiceParameter),
+			'ServiceParametersMap'	=> json_encode($this->apiServiceParametersMap),
+			'ResultType'			=> Constants::JSON_FORMAT,
+			'ResultSample'			=> json_encode($this->apiResultSample),
+			'FailResultSample'		=> json_encode($this->apiFailResultSample),
+			'ErrorCodeSamples'		=> json_encode($this->apiErrorCodeSamples),
+		];
+
+		$apiResult = $this->createApi($params);
+
+		$this->assertNotFalse($apiResult['check']);
+
+		return $apiResult['response']['ApiId'];
+	}
+
+	/**
+	 * @depends testCreateTrafficControl
+	 * @depends testCreateApiGroup
+	 * @depends testCreateApi
+	 */
+	public function testSetTrafficControlApis($trafficControlId, $groupId, $apiId)
+	{
+		$apiResult = $this->setTrafficControlApis($trafficControlId, $groupId, $apiId, $this->createStageName);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+	/**
+	 * @depends testCreateTrafficControl
+	 * @depends testCreateApiGroup
+	 * @depends testCreateApi
+	 */
+	public function testRemoveTrafficControlApis($trafficControlId, $groupId, $apiId)
+	{
+		$apiResult = $this->removeTrafficControlApis($trafficControlId, $groupId, $apiId, $this->createStageName);
+
+		$this->assertNotFalse($apiResult['check']);
 	}
 
 	/**

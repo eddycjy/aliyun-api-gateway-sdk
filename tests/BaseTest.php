@@ -27,6 +27,8 @@ use ApiGateway\Model\Control\DeleteTrafficControl;
 use ApiGateway\Model\Control\AddTrafficSpecialControl;
 use ApiGateway\Model\Control\DeleteAllTrafficSpecialControl;
 use ApiGateway\Model\Control\DeleteTrafficSpecialControl;
+use ApiGateway\Model\Control\SetTrafficControlApis;
+use ApiGateway\Model\Control\RemoveTrafficControlApis;
 
 use ApiGateway\Model\App\CreateApp;
 use ApiGateway\Model\App\ModifyApp;
@@ -651,6 +653,48 @@ class BaseTest extends TestCase
         $object->setTrafficControlId($trafficControlId);
         $object->setSpecialType($specialType);
         $object->setSpecialKey($specialKey);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function setTrafficControlApis($trafficControlId, $groupId, $apiIds, $stageName)
+    {
+        $object = new SetTrafficControlApis();
+        $object->setTrafficControlId($trafficControlId);
+        $object->setGroupId($groupId);
+        $object->setApiIds($apiIds);
+        $object->setStageName($stageName);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function removeTrafficControlApis($trafficControlId, $groupId, $apiIds, $stageName)
+    {
+        $object = new RemoveTrafficControlApis();
+        $object->setTrafficControlId($trafficControlId);
+        $object->setGroupId($groupId);
+        $object->setApiIds($apiIds);
+        $object->setStageName($stageName);
 
         $serviceObj = new ApiService($object);
         $response   = $serviceObj->get();
