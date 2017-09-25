@@ -35,10 +35,85 @@ use ApiGateway\Model\App\DescribeAppSecurity;
 use ApiGateway\Model\App\ResetAppSecret;
 use ApiGateway\Model\App\DeleteApp;
 
+use ApiGateway\Model\Authorized\SetApisAuthorities;
+use ApiGateway\Model\Authorized\RemoveApisAuthorities;
+use ApiGateway\Model\Authorized\SetAppsAuthorities;
+
 use ApiGateway\ApiService;
 
 class BaseTest extends TestCase
 {
+    protected $apiRequestConfig = [
+        'RequestProtocol'       => Constants::HTTP_PROTOCOL,
+        'RequestHttpMethod'     => Constants::POST_METHOD,
+        'RequestPath'           => '/api/visit/lists',
+        'RequestMode'           => Constants::MAPPING_MODE,
+        'BodyFormat'            => Constants::FORM_BODY_FORMAT,
+        'PostBodyDescription'   => 'CreateApiName-Body-Description',
+    ];
+
+    protected $apiServiceConfig = [
+        'ServiceProtocol'       => Constants::HTTP_PROTOCOL,
+        'ServiceAddress'        => 'http://www.inwill2.com',
+        'ServicePath'           => '/api/visit/lists',
+        'ServiceHttpMethod'     => Constants::POST_METHOD,
+        'ServiceTimeout'        => 50000,
+        'ContentTypeCatagory'   => Constants::DEFAULT_CONTENTTYPE,
+        'ContentTypeValue'      => Constants::FORM_CONTENTTYPE_VALUE,
+        'Mock'                  => FALSE,
+        'MockResult'            => '',
+        'ServiceVpcEnable'      => '',
+        'VpcConfig'             => '',  
+    ];
+
+    protected $apiRequestParameters = [
+        0 => [
+            'ApiParameterName'  => 'offset',
+            'Location'          => Constants::BODY_LOCATION,
+            'ParameterType'     => Constants::STRING_PARAMETERTYPE,
+            'Required'          => Constants::REQUIRED_REQUIRED,
+            'DefaultValue'      => '',
+            'DemoValue'         => '0,10',
+            'MaxValue'          => '',
+            'MinValue'          => '',
+            'MaxLength'         => 100,
+            'MinLength'         => 0,
+            'RegularExpression' => '',
+            'JsonScheme'        => '',
+            'EnumValue'         => '',
+            'DocShow'           => Constants::PUBLIC_TYPE,
+            'DocOrder'          => 0,
+            'Description'       => '',
+        ],
+    ];
+
+    protected $apiServiceParameter = [
+        0 => [
+            'ServiceParameterName'  => 'offset',
+            'Location'              => Constants::BODY_LOCATION,
+            'ParameterType'         => Constants::STRING_PARAMETERTYPE,
+        ],
+    ];
+
+    private $apiServiceParametersMap = [
+        0 => [
+            'ServiceParameterName' => 'offset',
+            'RequestParameterName' => 'offset',
+        ],
+    ];
+
+    protected $apiResultSample = [];
+
+    protected $apiFailResultSample = [];
+
+    protected $apiErrorCodeSamples = [
+        0 => [
+            'Code'          => 0,
+            'Message'       => '',
+            'Description'   => '',
+        ],
+    ];
+
 	/* Api Group Start */
 
 	protected function createApiGroup($createGroupName, $createDescription)
@@ -592,6 +667,8 @@ class BaseTest extends TestCase
 
     /* Control End */
 
+    /* App Start */
+
     protected function createApp($appName, $description)
     {
         $object = new CreateApp();
@@ -713,6 +790,98 @@ class BaseTest extends TestCase
             'response'  => $response
         ];
     }
+
+    /* App End */
+
+    /* Authorized Start */
+
+    protected function setApisAuthorities($params)
+    {
+        $object = new SetApisAuthorities();
+        $object->setGroupId($params['GroupId']);
+        $object->setStageName($params['StageName']);
+        $object->setAppId($params['AppId']);
+        $object->setApiIds($params['ApiIds']);
+        $object->setDescription($params['Description']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function removeApisAuthorities($params)
+    {
+        $object = new RemoveApisAuthorities();
+        $object->setGroupId($params['GroupId']);
+        $object->setStageName($params['StageName']);
+        $object->setAppId($params['AppId']);
+        $object->setApiIds($params['ApiIds']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function setAppsAuthorities($params)
+    {
+        $object = new SetAppsAuthorities();
+        $object->setGroupId($params['GroupId']);
+        $object->setStageName($params['StageName']);
+        $object->setApiId($params['ApiId']);
+        $object->setAppIds($params['AppIds']);
+        $object->setDescription($params['Description']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    protected function removeAppsAuthorities($params)
+    {
+        $object = new RemoveAppsAuthorities();
+        $object->setGroupId($params['GroupId']);
+        $object->setStageName($params['StageName']);
+        $object->setApiId($params['ApiId']);
+        $object->setAppIds($params['AppIds']);
+
+        $serviceObj = new ApiService($object);
+        $response   = $serviceObj->get();
+
+        $checks = [
+            'RequestId',
+        ];
+
+        return [
+            'check'     => $this->checkRequired($response, $checks),
+            'response'  => $response
+        ];
+    }
+
+    /* Authorized End */
 
     private function checkRequired($response, $values)
     {
