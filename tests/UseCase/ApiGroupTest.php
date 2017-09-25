@@ -108,7 +108,6 @@ class ApiGroupTest extends BaseTest
      */
     public function testDeleteApiGroup($groupId)
     {
-        //删除API分组
         $deleteResult = $this->deleteApiGroup($groupId);
 
         $this->assertNotFalse($deleteResult['check']);

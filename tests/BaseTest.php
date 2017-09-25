@@ -40,6 +40,7 @@ use ApiGateway\Model\App\DeleteApp;
 use ApiGateway\Model\Authorized\SetApisAuthorities;
 use ApiGateway\Model\Authorized\RemoveApisAuthorities;
 use ApiGateway\Model\Authorized\SetAppsAuthorities;
+use ApiGateway\Model\Authorized\RemoveAppsAuthorities;
 
 use ApiGateway\ApiService;
 
@@ -47,7 +48,7 @@ use ApiGateway\Constants;
 
 class BaseTest extends TestCase
 {
-    protected $apiRequestConfig = [
+    public $apiRequestConfig = [
         'RequestProtocol'       => Constants::HTTP_PROTOCOL,
         'RequestHttpMethod'     => Constants::POST_METHOD,
         'RequestPath'           => '/api/visit/lists',
@@ -56,7 +57,7 @@ class BaseTest extends TestCase
         'PostBodyDescription'   => 'CreateApiName-Body-Description',
     ];
 
-    protected $apiServiceConfig = [
+    public $apiServiceConfig = [
         'ServiceProtocol'       => Constants::HTTP_PROTOCOL,
         'ServiceAddress'        => 'http://www.inwill2.com',
         'ServicePath'           => '/api/visit/lists',
@@ -70,7 +71,7 @@ class BaseTest extends TestCase
         'VpcConfig'             => '',  
     ];
 
-    protected $apiRequestParameters = [
+    public $apiRequestParameters = [
         0 => [
             'ApiParameterName'  => 'offset',
             'Location'          => Constants::BODY_LOCATION,
@@ -91,7 +92,7 @@ class BaseTest extends TestCase
         ],
     ];
 
-    protected $apiServiceParameter = [
+    public $apiServiceParameter = [
         0 => [
             'ServiceParameterName'  => 'offset',
             'Location'              => Constants::BODY_LOCATION,
@@ -99,18 +100,18 @@ class BaseTest extends TestCase
         ],
     ];
 
-    private $apiServiceParametersMap = [
+    public $apiServiceParametersMap = [
         0 => [
             'ServiceParameterName' => 'offset',
             'RequestParameterName' => 'offset',
         ],
     ];
 
-    protected $apiResultSample = [];
+    public $apiResultSample = [];
 
-    protected $apiFailResultSample = [];
+    public $apiFailResultSample = [];
 
-    protected $apiErrorCodeSamples = [
+    public $apiErrorCodeSamples = [
         0 => [
             'Code'          => 0,
             'Message'       => '',
@@ -717,22 +718,36 @@ class BaseTest extends TestCase
 
     protected function createApp($appName, $description)
     {
-        $object = new CreateApp();
-        $object->setAppName($appName);
-        $object->setDescription($description);
+        if(! empty(APP_ID))
+        {      // 若配置项指定专用APP_ID则不再新建
+            $result = [
+                'check'     => true,
+                'response'  => [
+                    'AppId' => APP_ID
+                ]
+            ];
+        }
+        else
+        {
+            $object = new CreateApp();
+            $object->setAppName($appName);
+            $object->setDescription($description);
 
-        $serviceObj = new ApiService($object);
-        $response   = $serviceObj->get();
+            $serviceObj = new ApiService($object);
+            $response   = $serviceObj->get();
 
-        $checks = [
-            'RequestId',
-            'AppId'
-        ];
+            $checks = [
+                'RequestId',
+                'AppId'
+            ];
 
-        return [
-            'check'     => $this->checkRequired($response, $checks),
-            'response'  => $response
-        ];
+            $result = [
+                'check'     => $this->checkRequired($response, $checks),
+                'response'  => $response
+            ];
+        }
+
+        return $result;        
     }
 
     protected function modifyApp($appId, $appName, $description)
@@ -821,20 +836,33 @@ class BaseTest extends TestCase
 
     protected function deleteApp($appId)
     {
-        $object = new DeleteApp();
-        $object->setAppId($appId);
+        if(APP_ID == $appId)
+        {   // 若配置项指定专用APP_ID则不删除
+            $result = [
+                'check'     => true,
+                'response'  => [
+                ],
+            ];
+        }
+        else
+        {
+            $object = new DeleteApp();
+            $object->setAppId($appId);
 
-        $serviceObj = new ApiService($object);
-        $response   = $serviceObj->get();
+            $serviceObj = new ApiService($object);
+            $response   = $serviceObj->get();
 
-        $checks = [
-            'RequestId',
-        ];
+            $checks = [
+                'RequestId',
+            ];
 
-        return [
-            'check'     => $this->checkRequired($response, $checks),
-            'response'  => $response
-        ];
+            $result = [
+                'check'     => $this->checkRequired($response, $checks),
+                'response'  => $response
+            ];
+        }
+
+        
     }
 
     /* App End */

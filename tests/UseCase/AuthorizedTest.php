@@ -66,45 +66,6 @@ class AuthorizedTest extends BaseTest
 	 * @depends testCreateApp
 	 * @depends testCreateApi
 	 */
-	public function testSetApisAuthorities($groupId, $appId, $apiId)
-	{
-		$params = [
-			'GroupId' 		=> $groupId,
-			'StageName'		=> $this->authorizedStageName,
-			'AppId'			=> $appId,
-			'ApiIds'		=> $apiId,
-			'Description'	=> $this->createApiDescription,
-		];
-
-		$authorResult = $this->setApisAuthorities($params);
-
-		$this->assertNotFalse($authorResult['check']);
-	}
-
-	/**
-	 * @depends testCreateApiGroup
-	 * @depends testCreateApp
-	 * @depends testCreateApi
-	 */
-	public function testRemoveApisAuthorities($groupId, $appId, $apiId)
-	{
-		$params = [
-			'GroupId' 		=> $groupId,
-			'StageName'		=> $this->authorizedStageName,
-			'AppId'			=> $appId,
-			'ApiIds'		=> $apiId,
-		];
-
-		$authorResult = $this->removeApisAuthorities($params);
-
-		$this->assertNotFalse($authorResult['check']);
-	}
-
-	/**
-	 * @depends testCreateApiGroup
-	 * @depends testCreateApp
-	 * @depends testCreateApi
-	 */
 	public function testSetAppsAuthorities($groupId, $appId, $apiId)
 	{
 		$params = [
@@ -138,6 +99,45 @@ class AuthorizedTest extends BaseTest
 
 		$this->assertNotFalse($authorResult['check']);
 	}
+
+	/**
+	 * @depends testCreateApiGroup
+	 * @depends testCreateApp
+	 * @depends testCreateApi
+	 */
+	// public function testSetApisAuthorities($groupId, $appId, $apiId)
+	// {
+	// 	$params = [
+	// 		'GroupId' 		=> $groupId,
+	// 		'StageName'		=> $this->authorizedStageName,
+	// 		'AppId'			=> $appId,
+	// 		'ApiIds'		=> $apiId,
+	// 		'Description'	=> $this->createApiDescription,
+	// 	];
+
+	// 	$authorResult = $this->setApisAuthorities($params);
+
+	// 	$this->assertNotFalse($authorResult['check']);
+	// }
+
+	/**
+	 * @depends testCreateApiGroup
+	 * @depends testCreateApp
+	 * @depends testCreateApi
+	 */
+	// public function testRemoveApisAuthorities($groupId, $appId, $apiId)
+	// {
+	// 	$params = [
+	// 		'GroupId' 		=> $groupId,
+	// 		'StageName'		=> $this->authorizedStageName,
+	// 		'AppId'			=> $appId,
+	// 		'ApiIds'		=> $apiId,
+	// 	];
+
+	// 	$authorResult = $this->removeApisAuthorities($params);
+
+	// 	$this->assertNotFalse($authorResult['check']);
+	// }
 
 	/**
      * @depends testCreateApiGroup

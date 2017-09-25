@@ -6,4 +6,7 @@
             <directory>tests/UseCase/</directory>
         </testsuite>
     </testsuites>
+    <php>
+    	<const name="APP_ID" value=""/>
+    </php>
 </phpunit>

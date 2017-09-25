@@ -110,6 +110,17 @@ class ControlTest extends BaseTest
 	}
 
 	/**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDeployApiStep1($groupId, $apiId)
+	{
+		$apiResult = $this->deployApi($groupId, $apiId, $this->createStageName, $this->createAppDescription);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+	/**
 	 * @depends testCreateTrafficControl
 	 * @depends testCreateApiGroup
 	 * @depends testCreateApi
@@ -156,6 +167,17 @@ class ControlTest extends BaseTest
 
 	/**
      * @depends testCreateTrafficControl
+     * @depends testCreateApp
+     */
+	public function testDeleteTrafficSpecialControl($trafficControlId, $appId)
+	{
+		$deleteResult = $this->deleteTrafficSpecialControl($trafficControlId, $this->specialType, $appId);
+
+		$this->assertNotFalse($deleteResult['check']);
+	}
+
+	/**
+     * @depends testCreateTrafficControl
      */
 	public function testDeleteTrafficControl($trafficControlId)
 	{
@@ -165,14 +187,35 @@ class ControlTest extends BaseTest
 	}
 
 	/**
-     * @depends testCreateTrafficControl
-     * @depends testCreateApp
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
      */
-	public function testDeleteTrafficSpecialControl($trafficControlId, $appId)
+	public function testAbolishApi($groupId, $apiId)
 	{
-		$deleteResult = $this->deleteTrafficSpecialControl($trafficControlId, $this->specialType, $appId);
+		$apiResult = $this->abolishApi($groupId, $apiId, $this->createStageName);
 
-		$this->assertNotFalse($deleteResult['check']);
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+	/**
+     * @depends testCreateApiGroup
+     * @depends testCreateApi
+     */
+	public function testDeleteApi($groupId, $apiId)
+	{
+		$apiResult = $this->deleteApi($groupId, $apiId);
+
+		$this->assertNotFalse($apiResult['check']);
+	}
+
+	/**
+     * @depends testCreateApiGroup
+     */
+	public function testDeleteApiGroup($groupId)
+	{
+		$groupResult = $this->deleteApiGroup($groupId);
+
+		$this->assertNotFalse($groupResult['check']);
 	}
 
 	/**

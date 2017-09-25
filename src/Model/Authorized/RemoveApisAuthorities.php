@@ -9,9 +9,9 @@ class RemoveApisAuthorities extends ApiModel
 
     public $StageName;
 
-    public $ApiIds;
-
     public $AppId;
+
+    public $ApiIds;
 
     public function setGroupId($id)
     {
@@ -27,16 +27,16 @@ class RemoveApisAuthorities extends ApiModel
         return $this;
     }
 
-    public function setApiIds($ids)
+    public function setAppId($id)
     {
-        $this->ApiIds = $ids;
+        $this->AppId = $id;
 
         return $this;
     }
 
-    public function setAppId($id)
+    public function setApiIds($ids)
     {
-        $this->AppId = $id;
+        $this->ApiIds = $ids;
 
         return $this;
     }
