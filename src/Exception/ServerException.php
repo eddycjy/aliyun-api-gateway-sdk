@@ -32,7 +32,7 @@ class ServerException extends ClientException
 
     public function __construct($errorMessage, $errorCode, $httpStatus, $requestId)
     {
-        $messageStr = $errorCode . " " . $errorMessage . " HTTP Status: " . $httpStatus . " RequestID: " . $requestId;
+        $messageStr = $errorCode . " " . $errorMessage;
         parent::__construct($messageStr, $errorCode);
         $this->setErrorMessage($errorMessage);
         $this->setErrorType("Server");
